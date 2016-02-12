@@ -21,10 +21,6 @@ var recomm = require('./routes/recommendations');
 
 var app = express();
 
-/**
-* The file that Node.js uses to bootstrap the Express application.
-*/
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -41,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/user', user.findAllUsers);
 app.get('/music', music.findAllMusic);
 
+// Core App Functionality
 app.post('/follow', follow.followUser);
 app.post('/listen', listen.listenToMusic);
 app.get('/recommendations', recomm.getRecommendations);
