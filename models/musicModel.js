@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 */
 
 var musicSchema = new Schema({
-    _id : { type: String, required: true},
+    _id : { type: String, required: true, unique : true},
     genres: [{ type: String, required: true, trim: true }]
 });
 

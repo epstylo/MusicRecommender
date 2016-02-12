@@ -1,15 +1,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Music = require('mongoose').model('Music').schema;
 
 /**
 * Class defining the mongoose schema for Users
+*
+* Note: 
+*	- User cannot follow him/herself
+*	- Music that is listened by a user will only be included once in the listened list.
 */
-
 var userSchema = new Schema({
-    _id : { type: String, required: true },
+    _id : { type: String, required: true, unique : true },
     follows: [{ type: String, ref: "User"}],
-    listened: [Music]
+    listened: [{ type: String, ref: "Music"}]
 });
 
 // Create actual model
