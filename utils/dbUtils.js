@@ -1,6 +1,6 @@
 var musicJson = require('../json_files/music.json');
 var Music = require('../models/musicModel').Music;
-var musicRoutes = require('../routes/musicRoutes');
+var musicRoutes = require('../routes/music');
 
 // Utility helper class for database operations
 

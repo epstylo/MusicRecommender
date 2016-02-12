@@ -12,16 +12,12 @@ var dbUtils = require('./utils/dbUtils');
 // Note: if the db has never been created, it will be created upon this call.
 mongoose.connect('mongodb://localhost/music_recommender');
 
-// Pre-Load Schema
-// This is gimmicky but is required to eagerly export the music schema to allow proper initialization 
-// TODO: create function to initialize schemas on startup.
-var Music = require('./models/musicModel');
-
 // Routes
-var routes = require('./routes/index');
-var workouts = require('./routes/workouts');
-var user = require('./routes/userRoutes');
-var music = require('./routes/musicRoutes');
+var user = require('./routes/user');
+var music = require('./routes/music');
+var follow = require('./routes/follow');
+var listen = require('./routes/listen');
+var recomm = require('./routes/recommendations');
 
 var app = express();
 
@@ -41,18 +37,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', routes);
-app.get('/workouts', workouts.index);
-app.get('/workouts/:id', workouts.show);
-app.delete('/workouts', workouts.delete);
-app.post('/workouts', workouts.create);
-app.put('/workouts', workouts.update);
-
-app.get('/music', music.findAllMusic);
+// Testing Purposes
 app.get('/user', user.findAllUsers);
-app.post('/follow', user.follow);
-app.post('/listen', user.listen);
-app.get('/recommendations', user.getRecommendations);
+app.get('/music', music.findAllMusic);
+
+app.post('/follow', follow.followUser);
+app.post('/listen', listen.listenToMusic);
+app.get('/recommendations', recomm.getRecommendations);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
