@@ -8,8 +8,8 @@ var Music = require('mongoose').model('Music').schema;
 
 var userSchema = new Schema({
     _id : { type: String },
-    following: { type: String, ref: "User"},
-    hasListenedTo: [Music]
+    follows: { type: String, ref: "User"},
+    listened: [Music]
 });
 
 // Create actual model

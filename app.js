@@ -6,12 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
 var mongoose = require('mongoose');
+var dbUtils = require('./utils/dbUtils');
 
 // Connect to the local MongoDB instance
 // Note: if the db has never been created, it will be created upon this call.
 mongoose.connect('mongodb://localhost/music_recommender');
 
 // Pre-Load Schema
+// This is gimmicky but is required to eagerly export the music schema to allow proper initialization 
+// TODO: create function to initialize schemas on startup.
 var Music = require('./models/musicModel');
 
 // Routes
@@ -41,12 +44,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', routes);
 app.get('/workouts', workouts.index);
 app.get('/workouts/:id', workouts.show);
-app.del('/workouts', workouts.delete);
+app.delete('/workouts', workouts.delete);
 app.post('/workouts', workouts.create);
 app.put('/workouts', workouts.update);
 
 app.get('/music', music.findAllMusic);
 app.get('/user', user.findAllUsers);
+app.post('/follow', user.follow);
+app.post('/listen', user.listen);
+app.get('/recommendations', user.getRecommendations);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -78,5 +84,8 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+// Initialize the db with music entries
+dbUtils.initializeDB();
 
 module.exports = app;

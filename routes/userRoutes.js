@@ -11,3 +11,27 @@ exports.findAllUsers = function(req, res) {
     }
   });
 }
+
+/** 
+* POST /follow
+* Add one follows relationship.
+*   from: <user ID>
+*   to: <user ID>
+*/
+exports.follow = function(req, res) {
+}
+
+/**
+* POST /listen
+* Add one song as the user has just listened.
+*   user: <user ID>
+*   music: <music ID>
+*/
+exports.listen = function(req, res) {
+}
+
+/** 
+* GET /recommendations
+*/
+exports.getRecommendations = function(req, res) {
+}
