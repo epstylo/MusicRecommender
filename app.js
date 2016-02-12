@@ -7,14 +7,19 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var mongoose = require('mongoose');
 
-// Routes
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var workouts = require('./routes/workouts');
-
 // Connect to the local MongoDB instance
 // Note: if the db has never been created, it will be created upon this call.
-mongoose.connect('mongodb://localhost/workout_tracker');
+mongoose.connect('mongodb://localhost/music_recommender');
+
+// Pre-Load Schema
+var Music = require('./models/musicModel');
+
+// Routes
+var routes = require('./routes/index');
+var workouts = require('./routes/workouts');
+var user = require('./routes/userRoutes');
+var music = require('./routes/musicRoutes');
+
 var app = express();
 
 /**
@@ -34,12 +39,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', routes);
-app.get('/users', users);
 app.get('/workouts', workouts.index);
 app.get('/workouts/:id', workouts.show);
 app.del('/workouts', workouts.delete);
 app.post('/workouts', workouts.create);
 app.put('/workouts', workouts.update);
+
+app.get('/music', music.findAllMusic);
+app.get('/user', user.findAllUsers);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -71,6 +78,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
